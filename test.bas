@@ -1,0 +1,7 @@
+CONST string$ = "HELLO from BASIC!"
+FOR X = 1 TO 5
+DRAW_TEXT 16, X*16
+NEXT X
+DO
+YIELD
+LOOP

@@ -1,0 +1,21 @@
+CONST = {^"CONST" ~ ASSIGN}
+NEXT = {^"NEXT" ~ (IDENT)}
+ASSIGN = {IDENT ~ WHITESPACE* ~ "=" ~ WHITESPACE* ~ EXPRESSION}
+EXPRESSION = {LITERAL}
+LITERAL = _{STRING}
+STRING = ${(PUSH("\"") ~ STRING_BODY ~ POP)}
+STRING_BODY = ${
+    (STRING_NOESC | STRING_ESC | STRING_UNKNOWN_ESC)*
+}
+STRING_ESC = ${ "\\" ~ (CHAR_ESC | HEX_ESC)}
+CHAR_ESC = @{ "\\"| "\"" | "n" }
+HEX_ESC = @{ "x" ~ HEX_DIGIT{2} }
+HEX_DIGIT = @{ '0'..'9' | 'A'..'F' | 'a'..'f' }
+STRING_UNKNOWN_ESC = @{ "\\" ~ ANY }
+
+STRING_NOESC = @{(!("\\" | "\n" | PEEK) ~ ANY)+}
+
+WHITESPACE = _{ " " }
+OPERATOR = {"+" | "-" | "*" | "/"}
+SIGIL = {"!" | "$" | "#" | "%"}
+IDENT = {'a'..'z'+ ~ SIGIL*}
