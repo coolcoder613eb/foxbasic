@@ -18,4 +18,5 @@ STRING_NOESC = @{(!("\\" | "\n" | PEEK) ~ ANY)+}
 WHITESPACE = _{ " " }
 OPERATOR = {"+" | "-" | "*" | "/"}
 SIGIL = {"!" | "$" | "#" | "%"}
-IDENT = {'a'..'z'+ ~ SIGIL*}
+IDENT = {'A'..'z' ~ IDENT_CHAR* ~ SIGIL*}
+IDENT_CHAR = _{'A'..'z' | "_" | '0'..'9'}
